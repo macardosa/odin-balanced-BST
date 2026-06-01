@@ -133,26 +133,17 @@ export function createBST(array) {
                     prev.right = node.left;
                 }
             } else {
-                // insert all the hanging nodes from the left tree onto the right node
-                const queue = new Queue();
-                queue.enqueue(node.left);
-
-                while (!queue.isEmpty()) {
-                    const nodeTmp = queue.dequeue();
-                    if (nodeTmp.left !== null) queue.enqueue(nodeTmp.left);
-                    if (nodeTmp.right !== null) queue.enqueue(nodeTmp.right);
-
-                    insert(nodeTmp.value, node.right);
+                // find the inmediate successor in the left tree
+                let successor = node.right;
+                while (successor.left !== null) {
+                    successor = successor.left;
                 }
 
-                // drop the left tree
-                if (prev === null) {
-                    root = node.right;
-                } else if (prev.value > node.value) {
-                    prev.left = node.right;
-                } else {
-                    prev.right = node.right;
-                }
+                // update value of target node by its successor's value
+                node.value = successor.value;
+
+                // delete (clone) node at successor position
+                deleteItem(successor.value, node.right, node);
             }
         } else if (value < node.value) {
             deleteItem(value, node.left, node);
