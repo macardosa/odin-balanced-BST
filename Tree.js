@@ -161,13 +161,37 @@ export function createBST(array) {
         const queue = new Queue();
         queue.enqueue(root);
 
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             const node = queue.dequeue();
-            
+
             callback(node.value);
 
-            if(node.left) queue.enqueue(node.left);
-            if(node.right) queue.enqueue(node.right);
+            if (node.left) queue.enqueue(node.left);
+            if (node.right) queue.enqueue(node.right);
+        }
+    }
+
+    function levelOrderForEachRecur(callback, queue = null) {
+        if (typeof callback !== 'function') {
+            throw new Error('a callback function is required')
+        }
+        
+        if (queue === null) {
+            if (!root) return;
+
+            queue = new Queue();
+            queue.enqueue(root);
+        }
+
+        const node = queue.dequeue();
+
+        callback(node.value);
+
+        if (node.left) queue.enqueue(node.left);
+        if (node.right) queue.enqueue(node.right);
+
+        if (!queue.isEmpty()) {
+            levelOrderForEachRecur(callback, queue);
         }
     }
 
@@ -177,6 +201,7 @@ export function createBST(array) {
         includes,
         insert,
         deleteItem,
-        levelOrderForEach
+        levelOrderForEach,
+        levelOrderForEachRecur
     }
 }

@@ -106,3 +106,34 @@ describe('levelOrderForEach', () => {
         expect(values).toEqual([7, 1, 9, 4, 8, 23]);
     });
 });
+
+describe('levelOrderForEachRecur', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.levelOrderForEachRecur).toBeDefined();
+    });
+
+    it('should throw an error if no callback function was provided', () => {
+        expect(() => bst.levelOrderForEachRecur()).toThrow();
+        expect(() => bst.levelOrderForEachRecur([])).toThrow();
+        expect(() => bst.levelOrderForEachRecur({})).toThrow();
+        expect(() => bst.levelOrderForEachRecur(2)).toThrow();
+        expect(() => bst.levelOrderForEachRecur('lolo')).toThrow();
+        expect(() => bst.levelOrderForEachRecur(1/3)).toThrow();
+    });
+
+    it('should call the callback function', () => {
+        const callback = jest.fn();
+        bst.levelOrderForEachRecur(callback);
+        expect(callback).toHaveBeenCalledTimes(6); // 6 elements removing duplicates
+    });
+
+    it('should process values in level order', () => {
+        const values = [];
+        bst.levelOrderForEachRecur(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([7, 1, 9, 4, 8, 23]);
+    });
+});
