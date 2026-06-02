@@ -1,30 +1,70 @@
 import { createBST } from "./Tree.js";
 
-// const bst = createBST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+// create array of random numbers
+const arr = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));
 
-// bst.insert(2);
-// bst.deleteItem(7);
-// bst.deleteItem(9);
-// bst.deleteItem(3);
-// bst.deleteItem(67);
-// bst.deleteItem(8);
+// build balance binary search tree (BST)
+const bst = createBST(arr);
 
-// console.log(bst.prettyString());
+// confirm that the tree is balanced
+if (bst.isBalanced()) {
+    console.log('Tree is balanced');
+} else {
+    console.log('Tree is NOT balanced');
+}
 
-const bst2 = createBST([1, 7, 4, 23, 8, 9, 7]);
-bst2.prettyPrint();
+// print tree
+bst.prettyPrint();
 
-bst2.insert(-1);
-bst2.insert(10);
-bst2.insert(11);
+// Print elements in level Order
+let ordering = {
+    'Level Order': [],
+    'In Order': [],
+    'Pre Order': [],
+    'Post Order': []
+};
+bst.levelOrderForEach(item => ordering['Level Order'].push(item));
+bst.inOrderForEach(item => ordering['In Order'].push(item));
+bst.preOrderForEach(item => ordering['Pre Order'].push(item));
+bst.postOrderForEach(item => ordering['Post Order'].push(item));
 
-bst2.prettyPrint();
+console.table(ordering);
 
-// bst2.levelOrderForEach(item => console.log(item));
+// Unbalance the tree by adding several numbers whose value is more than 100
+for (let i = 0; i < 10; i++) {
+    bst.insert(Math.floor(Math.random() * 100 + 10));
+}
 
-const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
-const before = bst.prettyString();
+// confirm that the tree is unbalanced
+if (bst.isBalanced()) {
+    console.log('Tree is balanced');
+} else {
+    console.log('Tree is NOT balanced');
+}
+
+// rebalance the tree 
 bst.rebalance();
-const after = bst.prettyString();
-console.log(before);
-console.log(after);
+
+// confirm that the tree is balanced
+if (bst.isBalanced()) {
+    console.log('Tree is balanced');
+} else {
+    console.log('Tree is NOT balanced');
+}
+
+// print tree
+bst.prettyPrint();
+
+// Print elements in level Order
+ordering = {
+    'Level Order': [],
+    'In Order': [],
+    'Pre Order': [],
+    'Post Order': []
+};
+bst.levelOrderForEach(item => ordering['Level Order'].push(item));
+bst.inOrderForEach(item => ordering['In Order'].push(item));
+bst.preOrderForEach(item => ordering['Pre Order'].push(item));
+bst.postOrderForEach(item => ordering['Post Order'].push(item));
+
+console.table(ordering);
