@@ -312,13 +312,13 @@ export function createBST(array) {
                 return traverse(node.left, count + 1);
             }
 
-            return  traverse(node.right, count + 1);
+            return traverse(node.right, count + 1);
         }
 
         return traverse(root, 0);
     }
 
-    function isBalanced() {
+    function isBalancedV1() {
         if (!root) return true;
 
         function height(node) {
@@ -344,6 +344,26 @@ export function createBST(array) {
         }
 
         return traverse(root);
+    }
+
+    function isBalanced() {
+        function checkHeight(node) {
+            if (!node) return -1;
+
+            const leftHeight = checkHeight(node.left);
+            if (leftHeight === null) return null;
+
+            const rightHeight = checkHeight(node.right);
+            if (rightHeight === null) return null;
+
+            if(Math.abs(leftHeight - rightHeight) > 1) {
+                return null;
+            }
+
+            return 1 + Math.max(leftHeight,rightHeight);
+        }
+
+        return checkHeight(root) !== null;
     }
 
     return {
