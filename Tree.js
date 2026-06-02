@@ -175,7 +175,7 @@ export function createBST(array) {
         if (typeof callback !== 'function') {
             throw new Error('a callback function is required')
         }
-        
+
         if (queue === null) {
             if (!root) return;
 
@@ -195,6 +195,19 @@ export function createBST(array) {
         }
     }
 
+    function inOrderForEach(callback, node = root) {
+        if (typeof callback !== 'function') {
+            throw new Error('a callback function is required')
+        }
+
+        if(node === null) return;
+
+        inOrderForEach(callback, node.left);
+        callback(node.value);
+        inOrderForEach(callback, node.right);
+    }
+
+
     return {
         prettyString,
         prettyPrint,
@@ -202,6 +215,7 @@ export function createBST(array) {
         insert,
         deleteItem,
         levelOrderForEach,
-        levelOrderForEachRecur
+        levelOrderForEachRecur,
+        inOrderForEach
     }
 }

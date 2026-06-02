@@ -89,7 +89,7 @@ describe('levelOrderForEach', () => {
         expect(() => bst.levelOrderForEach({})).toThrow();
         expect(() => bst.levelOrderForEach(2)).toThrow();
         expect(() => bst.levelOrderForEach('lolo')).toThrow();
-        expect(() => bst.levelOrderForEach(1/3)).toThrow();
+        expect(() => bst.levelOrderForEach(1 / 3)).toThrow();
     });
 
     it('should call the callback function', () => {
@@ -120,7 +120,7 @@ describe('levelOrderForEachRecur', () => {
         expect(() => bst.levelOrderForEachRecur({})).toThrow();
         expect(() => bst.levelOrderForEachRecur(2)).toThrow();
         expect(() => bst.levelOrderForEachRecur('lolo')).toThrow();
-        expect(() => bst.levelOrderForEachRecur(1/3)).toThrow();
+        expect(() => bst.levelOrderForEachRecur(1 / 3)).toThrow();
     });
 
     it('should call the callback function', () => {
@@ -135,5 +135,45 @@ describe('levelOrderForEachRecur', () => {
             values.push(value);
         });
         expect(values).toEqual([7, 1, 9, 4, 8, 23]);
+    });
+});
+
+describe('inOrderForEach', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.inOrderForEach).toBeDefined();
+    });
+
+    it('should throw an error if no callback function was provided', () => {
+        expect(() => bst.inOrderForEach()).toThrow();
+        expect(() => bst.inOrderForEach([])).toThrow();
+        expect(() => bst.inOrderForEach({})).toThrow();
+        expect(() => bst.inOrderForEach(2)).toThrow();
+        expect(() => bst.inOrderForEach('lolo')).toThrow();
+        expect(() => bst.inOrderForEach(1 / 3)).toThrow();
+    });
+
+    it('should call the callback function', () => {
+        const callback = jest.fn();
+        bst.inOrderForEach(callback);
+        expect(callback).toHaveBeenCalledTimes(6); // 6 elements removing duplicates
+    });
+
+    it('should process values in-order', () => {
+        const values = [];
+        bst.inOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([1, 4, 7, 8, 9, 23]);
+    });
+
+    it('should do nothing if root node is null', () => {
+        const bst = createBST([]);
+        const values = [];
+        bst.inOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([]);
     });
 });
