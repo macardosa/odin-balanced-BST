@@ -195,16 +195,20 @@ export function createBST(array) {
         }
     }
 
-    function inOrderForEach(callback, node = root) {
+    function inOrderForEach(callback) {
         if (typeof callback !== 'function') {
             throw new Error('a callback function is required')
         }
 
-        if(node === null) return;
+        function traverseInOrder(node) {
+            if (node === null) return;
 
-        inOrderForEach(callback, node.left);
-        callback(node.value);
-        inOrderForEach(callback, node.right);
+            traverseInOrder(node.left);
+            callback(node.value);
+            traverseInOrder(node.right);
+        }
+
+        traverseInOrder(root);
     }
 
 
