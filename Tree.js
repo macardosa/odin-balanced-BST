@@ -243,6 +243,50 @@ export function createBST(array) {
         traversePostOrder(root);
     }
 
+    function find(value) {
+        if (!root) return null;
+
+        const queue = new Queue();
+        queue.enqueue(root);
+
+        while (!queue.isEmpty()) {
+            const node = queue.dequeue();
+
+            if (node.value === value) {
+                return node;
+            }
+
+            if (node.left) queue.enqueue(node.left);
+            if (node.right) queue.enqueue(node.right);
+        }
+
+        return null;
+    }
+
+    function height(value) {
+        // locate the value in the tree
+        const startNode = find(value);
+
+        if (!startNode) return undefined;
+
+        let longestBranchCount = 0;
+
+        function traverse(node, count = 0) {
+            if (!node.left && !node.right) {
+                if (longestBranchCount < count) longestBranchCount = count;
+                return;
+            }
+
+            count++;
+            if (node.left) traverse(node.left, count);
+            if (node.right) traverse(node.right, count);
+            count--;
+        }
+
+        traverse(startNode);
+        return longestBranchCount;
+    }
+
 
     return {
         prettyString,
@@ -254,6 +298,8 @@ export function createBST(array) {
         levelOrderForEachRecur,
         inOrderForEach,
         preOrderForEach,
-        postOrderForEach
+        postOrderForEach,
+        find,
+        height
     }
 }

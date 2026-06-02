@@ -245,7 +245,7 @@ describe('postOrderForEach', () => {
         bst.postOrderForEach(value => {
             values.push(value);
         });
-        expect(values).toEqual([7, 1, 4, 9, 8, 23]);
+        expect(values).toEqual([4, 1, 8, 23, 9, 7]);
     });
 
     it('should do nothing if root node is null', () => {
@@ -255,5 +255,57 @@ describe('postOrderForEach', () => {
             values.push(value);
         });
         expect(values).toEqual([]);
+    });
+});
+
+describe('find', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.find).toBeDefined();
+    });
+
+    it('should return node if value exists in the tree', () => {
+        expect(bst.find(4).value).toBe(4);
+        expect(bst.find(7).value).toBe(7);
+        expect(bst.find(23).value).toBe(23);
+    });
+
+    it('should return null if value is not found in the tree', () => {
+        expect(bst.find(100)).toBeNull();
+        expect(bst.find(-2)).toBeNull();
+    });
+});
+
+describe('height', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+
+    it('should exist', () => {
+        expect(bst.height).toBeDefined();
+    });
+
+    it('should return undefined if value is not found in the tree', () => {
+        expect(bst.height(100)).toBeUndefined();
+        expect(bst.height(-2)).toBeUndefined();
+    });
+
+    it('should return height of node present in the tree', () => {
+        // level 3
+        [6345, 23, 7, 3].forEach(item => {
+            expect(bst.height(item)).toBe(0);
+        });
+
+        // level 2
+        [1, 5, 9, 324].forEach(item => {
+            expect(bst.height(item)).toBe(1);
+        });
+
+        // level 1
+        [4, 67].forEach(item => {
+            expect(bst.height(item)).toBe(2);
+        });
+
+        // level 0 (root)
+        expect(bst.height(8)).toBe(3);
     });
 });
