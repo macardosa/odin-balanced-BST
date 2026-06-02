@@ -256,7 +256,7 @@ export function createBST(array) {
                 return node;
             }
 
-            if (node.left) queue.enqueue(node.left);
+            if (node.left && value < node.value) queue.enqueue(node.left);
             if (node.right) queue.enqueue(node.right);
         }
 
@@ -298,6 +298,53 @@ export function createBST(array) {
         return traverse(startNode);
     }
 
+    function depth(value) {
+        if (!root) return undefined;
+
+        function traverse(node, count) {
+            if (!node) return undefined;
+
+            if (value === node.value) {
+                return count;
+            }
+
+            if (value < node.value) {
+                return traverse(node.left, count + 1);
+            }
+
+            return  traverse(node.right, count + 1);
+        }
+
+        return traverse(root, 0);
+    }
+
+    function isBalanced() {
+        if (!root) return true;
+
+        function height(node) {
+            if (!node) return -1;
+
+            return 1 + Math.max(
+                height(node.left),
+                height(node.right)
+            );
+        }
+
+        function traverse(node) {
+            if (!node) return true;
+
+            const left = (node.left) ? height(node.left) : 0;
+            const right = (node.right) ? height(node.right) : 0;
+
+            if (Math.abs(left - right) > 1) {
+                return false;
+            }
+
+            return traverse(node.left) && traverse(node.right);
+        }
+
+        return traverse(root);
+    }
 
     return {
         prettyString,
@@ -311,6 +358,8 @@ export function createBST(array) {
         preOrderForEach,
         postOrderForEach,
         find,
-        height
+        height,
+        depth,
+        isBalanced
     }
 }

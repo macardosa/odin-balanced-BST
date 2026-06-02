@@ -309,3 +309,64 @@ describe('height', () => {
         expect(bst.height(8)).toBe(3);
     });
 });
+
+describe('depth', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+
+    it('should exist', () => {
+        expect(bst.depth).toBeDefined();
+    });
+
+    it('should return undefined if value is not found in the tree', () => {
+        expect(bst.depth(100)).toBeUndefined();
+        expect(bst.depth(-2)).toBeUndefined();
+    });
+
+    it('should return depth of node present in the tree', () => {
+        // level 3
+        [6345, 23, 7, 3].forEach(item => {
+            expect(bst.depth(item)).toBe(3);
+        });
+
+        // level 2
+        [1, 5, 9, 324].forEach(item => {
+            expect(bst.depth(item)).toBe(2);
+        });
+
+        // level 1
+        [4, 67].forEach(item => {
+            expect(bst.depth(item)).toBe(1);
+        });
+
+        // level 0 (root)
+        expect(bst.depth(8)).toBe(0);
+    });
+});
+
+describe('isBalanced', () => {
+    it('should exist', () => {
+        const bst = createBST([]);
+        expect(bst.isBalanced).toBeDefined();
+    });
+
+    it.each([
+        [[1]],
+        [[1, 2]],
+        [[1, 2, 3]],
+        [[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]]
+    ])('should return true if tree is balanced', (sortedArr) => {
+        // A binary tree is considered balanced if, for every node in the tree, the height difference between its left and right subtrees is no more than 1, and both the left and right subtrees are also balanced.
+
+        const bst = createBST(sortedArr);
+        expect(bst.isBalanced()).toBe(true); // tree built at startup is balanced
+    });
+
+    it('should return false if tree is not balanced', () => {
+        const bst = createBST([1, 7, 4, 23, 8, 9, 7]); // build tree is balanced
+        bst.insert(0); // unbalance tree by inserting some elements
+        bst.insert(-1);
+        bst.insert(10);
+        bst.insert(11);
+        expect(bst.isBalanced()).toBe(false); // tree built at startup is balanced
+    });
+});
