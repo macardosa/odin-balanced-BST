@@ -1,10 +1,10 @@
 import { Node } from "./Node.js";
 import { Queue } from "./Queue.js";
 
-export function createBST(array) {
-    let root = buildTree();
+export function createBST(inputArray) {
+    let root = buildTree(inputArray);
 
-    function buildTree() {
+    function buildTree(array) {
         // sort array and remove duplicates
         const sortedArray = [... new Set(array)].sort((a, b) => a - b);
 
@@ -366,6 +366,15 @@ export function createBST(array) {
         return checkHeight(root) !== null;
     }
 
+    function rebalance() {
+        // extract inOrder array (would be sorted)
+        const array = []
+        inOrderForEach(item => array.push(item));
+    
+        // rebuild tree
+        root = sortedArrayToBST(array);
+    }
+
     return {
         prettyString,
         prettyPrint,
@@ -380,6 +389,7 @@ export function createBST(array) {
         find,
         height,
         depth,
-        isBalanced
+        isBalanced,
+        rebalance
     }
 }

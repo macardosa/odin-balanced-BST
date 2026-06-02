@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { expect, jest } from '@jest/globals';
 import { createBST } from "./Tree.js";
 
 describe('includes', () => {
@@ -368,5 +368,33 @@ describe('isBalanced', () => {
         bst.insert(10);
         bst.insert(11);
         expect(bst.isBalanced()).toBe(false); // tree built at startup is balanced
+    });
+});
+
+describe('rebalance', () => {
+    it('should exist', () => {
+        const bst = createBST([]);
+        expect(bst.rebalance).toBeDefined();
+    });
+
+    it('should balance an unbalanced tree', () => {
+        const bst = createBST([1, 7, 4, 23, 8, 9, 7]); // build tree is balanced
+        bst.insert(0); // unbalance tree by inserting some elements
+        bst.insert(-1);
+        bst.insert(10);
+        bst.insert(11);
+        
+        expect(bst.isBalanced()).toBe(false);
+        bst.rebalance();
+        expect(bst.isBalanced()).toBe(true);
+    });
+
+    it('should do nothing if tree is balanced already', () => {
+        const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+        const before = bst.prettyString();
+        bst.rebalance();
+        const after = bst.prettyString();
+        
+        expect(before).toEqual(after);
     });
 });
