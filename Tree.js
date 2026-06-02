@@ -263,28 +263,39 @@ export function createBST(array) {
         return null;
     }
 
-    function height(value) {
+    function heightV1(value) {
         // locate the value in the tree
         const startNode = find(value);
-
         if (!startNode) return undefined;
 
-        let longestBranchCount = 0;
+        let maxCount = 0;
 
         function traverse(node, count = 0) {
-            if (!node.left && !node.right) {
-                if (longestBranchCount < count) longestBranchCount = count;
-                return;
-            }
+            if (!node) return;
 
-            count++;
-            if (node.left) traverse(node.left, count);
-            if (node.right) traverse(node.right, count);
-            count--;
+            maxCount = Math.max(maxCount, count);
+            traverse(node.left, count + 1);
+            traverse(node.right, count + 1);
         }
 
         traverse(startNode);
-        return longestBranchCount;
+        return maxCount;
+    }
+
+    function height(value) {
+        const startNode = find(value);
+        if (!startNode) return undefined;
+
+        function traverse(node) {
+            if (!node) return -1;
+
+            return 1 + Math.max(
+                traverse(node.left),
+                traverse(node.right)
+            );
+        }
+
+        return traverse(startNode);
     }
 
 
