@@ -211,6 +211,38 @@ export function createBST(array) {
         traverseInOrder(root);
     }
 
+    function preOrderForEach(callback) {
+        if (typeof callback !== 'function') {
+            throw new Error('a callback function is required')
+        }
+
+        function traversePreOrder(node) {
+            if (node === null) return;
+
+            callback(node.value);
+            traversePreOrder(node.left);
+            traversePreOrder(node.right);
+        }
+
+        traversePreOrder(root);
+    }
+
+    function postOrderForEach(callback) {
+        if (typeof callback !== 'function') {
+            throw new Error('a callback function is required')
+        }
+
+        function traversePostOrder(node) {
+            if (node === null) return;
+
+            traversePostOrder(node.left);
+            traversePostOrder(node.right);
+            callback(node.value);
+        }
+
+        traversePostOrder(root);
+    }
+
 
     return {
         prettyString,
@@ -220,6 +252,8 @@ export function createBST(array) {
         deleteItem,
         levelOrderForEach,
         levelOrderForEachRecur,
-        inOrderForEach
+        inOrderForEach,
+        preOrderForEach,
+        postOrderForEach
     }
 }

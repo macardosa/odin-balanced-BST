@@ -177,3 +177,83 @@ describe('inOrderForEach', () => {
         expect(values).toEqual([]);
     });
 });
+
+describe('preOrderForEach', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.preOrderForEach).toBeDefined();
+    });
+
+    it('should throw an error if no callback function was provided', () => {
+        expect(() => bst.preOrderForEach()).toThrow();
+        expect(() => bst.preOrderForEach([])).toThrow();
+        expect(() => bst.preOrderForEach({})).toThrow();
+        expect(() => bst.preOrderForEach(2)).toThrow();
+        expect(() => bst.preOrderForEach('lolo')).toThrow();
+        expect(() => bst.preOrderForEach(1 / 3)).toThrow();
+    });
+
+    it('should call the callback function', () => {
+        const callback = jest.fn();
+        bst.preOrderForEach(callback);
+        expect(callback).toHaveBeenCalledTimes(6); // 6 elements removing duplicates
+    });
+
+    it('should process values pre-order', () => {
+        const values = [];
+        bst.preOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([7, 1, 4, 9, 8, 23]);
+    });
+
+    it('should do nothing if root node is null', () => {
+        const bst = createBST([]);
+        const values = [];
+        bst.preOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([]);
+    });
+});
+
+describe('postOrderForEach', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.postOrderForEach).toBeDefined();
+    });
+
+    it('should throw an error if no callback function was provided', () => {
+        expect(() => bst.postOrderForEach()).toThrow();
+        expect(() => bst.postOrderForEach([])).toThrow();
+        expect(() => bst.postOrderForEach({})).toThrow();
+        expect(() => bst.postOrderForEach(2)).toThrow();
+        expect(() => bst.postOrderForEach('lolo')).toThrow();
+        expect(() => bst.postOrderForEach(1 / 3)).toThrow();
+    });
+
+    it('should call the callback function', () => {
+        const callback = jest.fn();
+        bst.postOrderForEach(callback);
+        expect(callback).toHaveBeenCalledTimes(6); // 6 elements removing duplicates
+    });
+
+    it('should process values post-order', () => {
+        const values = [];
+        bst.postOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([7, 1, 4, 9, 8, 23]);
+    });
+
+    it('should do nothing if root node is null', () => {
+        const bst = createBST([]);
+        const values = [];
+        bst.postOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([]);
+    });
+});
