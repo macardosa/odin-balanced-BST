@@ -9,3 +9,8 @@ bst.deleteItem(67);
 bst.deleteItem(8);
 
 console.log(bst.prettyString());
+
+const bst2 = createBST([1, 7, 4, 23, 8, 9, 7]);
+bst2.prettyPrint();
+
+bst2.levelOrderForEach(item => console.log(item));

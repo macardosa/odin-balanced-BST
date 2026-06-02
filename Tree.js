@@ -152,11 +152,31 @@ export function createBST(array) {
         }
     }
 
+    function levelOrderForEach(callback) {
+        if (typeof callback !== 'function') {
+            throw new Error('a callback function is required')
+        }
+
+        // traverse the tree in breadth-first level order
+        const queue = new Queue();
+        queue.enqueue(root);
+
+        while(!queue.isEmpty()) {
+            const node = queue.dequeue();
+            
+            callback(node.value);
+
+            if(node.left) queue.enqueue(node.left);
+            if(node.right) queue.enqueue(node.right);
+        }
+    }
+
     return {
         prettyString,
         prettyPrint,
         includes,
         insert,
-        deleteItem
+        deleteItem,
+        levelOrderForEach
     }
 }

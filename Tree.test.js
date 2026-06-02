@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { createBST } from "./Tree.js";
 
 describe('includes', () => {
@@ -72,5 +73,36 @@ describe('deleteItem', () => {
 
         bst.deleteItem(8);
         expect(bst.includes(8)).toBe(false);
+    });
+});
+
+describe('levelOrderForEach', () => {
+    const bst = createBST([1, 7, 4, 23, 8, 9, 7]);
+
+    it('should exist', () => {
+        expect(bst.levelOrderForEach).toBeDefined();
+    });
+
+    it('should throw an error if no callback function was provided', () => {
+        expect(() => bst.levelOrderForEach()).toThrow();
+        expect(() => bst.levelOrderForEach([])).toThrow();
+        expect(() => bst.levelOrderForEach({})).toThrow();
+        expect(() => bst.levelOrderForEach(2)).toThrow();
+        expect(() => bst.levelOrderForEach('lolo')).toThrow();
+        expect(() => bst.levelOrderForEach(1/3)).toThrow();
+    });
+
+    it('should call the callback function', () => {
+        const callback = jest.fn();
+        bst.levelOrderForEach(callback);
+        expect(callback).toHaveBeenCalledTimes(6); // 6 elements removing duplicates
+    });
+
+    it('should process values in level order', () => {
+        const values = [];
+        bst.levelOrderForEach(value => {
+            values.push(value);
+        });
+        expect(values).toEqual([7, 1, 9, 4, 8, 23]);
     });
 });
